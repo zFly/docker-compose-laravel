@@ -19,15 +19,18 @@ services:
       - laravel
 
   mysql:
+    user: $UID:$GID
     image: mysql:5.7.29
     container_name: mysql
     restart: unless-stopped
     tty: true
     ports:
       - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: homestead
-      MYSQL_USER: homestead
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: root
       MYSQL_PASSWORD: secret
       MYSQL_ROOT_PASSWORD: secret
       SERVICE_TAGS: dev
@@ -36,6 +39,7 @@ services:
       - laravel
 
   php:
+    user: $UID:$GID
     build:
       context: .
       dockerfile: Dockerfile
